@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  dibimbing-dataeng-sql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: ${SQL_CONTAINER_NAME}
+    restart: unless-stopped
+    hostname: ${SQL_CONTAINER_NAME}
+    networks:
+      - dataeng-network
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SQL_PASSWORD}
+    volumes:
+      - ../sql:/var/opt/mssql/data
+    ports:
+      - ${SQL_PORT}:1433
+
+networks:
+  dataeng-network:
+    driver: bridge
+    external: true
