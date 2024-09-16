@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   scheduler:
-    image: dataeng-dibimbing/airflow
+    image: mrewaakbari06/rewastack:latest
     container_name: ${AIRFLOW_SCHEDULER_CONTAINER_NAME}
     hostname: ${AIRFLOW_SCHEDULER_CONTAINER_NAME}
     command: scheduler
@@ -24,7 +24,7 @@ services:
       - ../spark-scripts:/spark-scripts
 
   webserver:
-    image: dataeng-dibimbing/airflow
+    image: mrewaakbari06/rewastack:latest
     container_name: ${AIRFLOW_WEBSERVER_CONTAINER_NAME}
     hostname: ${AIRFLOW_WEBSERVER_CONTAINER_NAME}
     entrypoint: /scripts/entrypoint.sh
@@ -52,5 +52,5 @@ services:
 
 networks:
   default:
-    name: dataeng-network
+    name: rewastack-network
     external: true

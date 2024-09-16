@@ -1,10 +1,10 @@
 version: '2'
 
 services:
-  dibimbing-dataeng-spark-master:
+  rewastack-spark-master:
     container_name: ${SPARK_MASTER_CONTAINER_NAME}
     hostname: ${SPARK_MASTER_HOST_NAME}
-    image: dataeng-dibimbing/spark
+    image: mrewaakbari06/rewastack:latest
     environment:
       - SPARK_MODE=master
       - SPARK_RPC_AUTHENTICATION_ENABLED=no
@@ -14,14 +14,15 @@ services:
     volumes:
       - ../spark-scripts:/spark-scripts
       - ../scripts:/scripts
+      - ../data:/data
     ports:
       - ${SPARK_MASTER_UI}:8080
       - ${SPARK_MASTER_PORT}:7077
 
-  dibimbing-dataeng-spark-worker-1:
+  rewastack-spark-worker-1:
     &worker_default
     container_name: ${SPARK_WORKER_CONTAINER_NAME}-1
-    image: dataeng-dibimbing/spark
+    image: mrewaakbari06/rewastack:latest
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://${SPARK_MASTER_HOST_NAME}:${SPARK_MASTER_PORT}
@@ -34,8 +35,9 @@ services:
     volumes:
       - ../spark-scripts:/spark-scripts
       - ../scripts:/scripts
+      - ../data:/data
     depends_on:
-      - dibimbing-dataeng-spark-master
+      - rewastack-spark-master
 
   # dibimbing-dataeng-spark-worker-2:
   #   <<: *worker_default
@@ -43,5 +45,5 @@ services:
 
 networks:
   default:
-    name: dataeng-network
+    name: rewastack-network
     external: true

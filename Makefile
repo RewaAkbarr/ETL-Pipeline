@@ -37,14 +37,14 @@ docker-build-arm:
 	@echo '__________________________________________________________'
 	@echo 'Building Docker Images ...'
 	@echo '__________________________________________________________'
-	@docker network inspect dataeng-network >/dev/null 2>&1 || docker network create dataeng-network
+	@docker network inspect rewastack-network >/dev/null 2>&1 || docker network create rewastack-network
 	@echo '__________________________________________________________'
-	@docker build -t dataeng-dibimbing/spark -f ./docker/Dockerfile.spark .
+	@docker build -t mrewaakbari06/rewastack:latest -f ./docker/Dockerfile.airflow-arm .
 	@echo '__________________________________________________________'
-	@docker build -t dataeng-dibimbing/airflow -f ./docker/Dockerfile.airflow-arm .
+	@docker build -t mrewaakbari06/rewastack:latest -f ./docker/Dockerfile.spark .
 	@echo '__________________________________________________________'
-	@docker build -t dataeng-dibimbing/jupyter -f ./docker/Dockerfile.jupyter .
-	@echo '==========================================================='
+	@docker build -t mrewaakbari06/rewastack:latest -f./docker/Dockerfile.jupyter .
+	@echo '__________________________________________________________'
 
 jupyter:
 	@echo '__________________________________________________________'
@@ -62,13 +62,13 @@ spark:
 	@echo 'Creating Spark Cluster ...'
 	@echo '__________________________________________________________'
 	@docker compose -f ./docker/docker-compose-spark.yml --env-file .env up -d
-	@docker build -t dataeng-dibimbing/spark -f ./docker/Dockerfile.spark .
+	@docker build -t mrewaakbari06/rewastack:latest -f ./docker/Dockerfile.spark .
 
 spark-submit-test:
 	@docker exec ${SPARK_WORKER_CONTAINER_NAME}-1 \
 		spark-submit \
 		--master spark://${SPARK_MASTER_HOST_NAME}:${SPARK_MASTER_PORT} \
-		/spark-scripts/transform.py 
+		/spark-scripts/ingest.py 
 
 
 spark-submit-airflow-test:
@@ -115,14 +115,14 @@ postgres-create-table:
 	@echo '__________________________________________________________'
 	@echo 'Creating tables...'
 	@echo '_________________________________________'
-	@docker exec -it ${POSTGRES_CONTAINER_NAME} psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f sql/Coffeshop.sql
+	@docker exec -it ${POSTGRES_CONTAINER_NAME} psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f sql/Ecommerce.sql
 	@echo '==========================================================='
 
 postgres-ingest-csv:
 	@echo '__________________________________________________________'
 	@echo 'Ingesting CSV...'
 	@echo '_________________________________________'
-	@docker exec -it ${POSTGRES_CONTAINER_NAME} psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f sql/ingest-data.sql
+	@docker exec -it ${POSTGRES_CONTAINER_NAME} psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -f sql/Ingestdata.sql
 	@echo '==========================================================='
 
 postgres-run:
@@ -188,6 +188,24 @@ datahub-create:
 	@echo 'Creating Datahub Instance ...'
 	@echo '__________________________________________________________'
 	@docker compose -f ./docker/docker-compose-datahub.yml --env-file .env up
+	@echo '==========================================================='
+
+docker-build-api-etl:
+	@echo '__________________________________________________________'
+	@echo 'Building Docker Images ...'
+	@echo '__________________________________________________________'
+	@docker network inspect rewastack-network >/dev/null 2>&1 || docker network create rewastack-network
+	@echo '__________________________________________________________'
+	@docker build -t mrewaakbari06/rewastack:api -f./docker/Dockerfile.uvicorn .
+	@echo '__________________________________________________________'
+	@docker build -t mrewaakbari06/rewastack:etl -f./docker/Dockerfile.etl .
+	@echo '==========================================================='
+
+api-etl:
+	@echo '__________________________________________________________'
+	@echo 'Creating API ETL Instance ...'
+	@echo '__________________________________________________________'
+	@docker compose -f ./docker/docker-compose-api-etl.yml up
 	@echo '==========================================================='
 
 

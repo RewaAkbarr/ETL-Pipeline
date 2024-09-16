@@ -4,7 +4,7 @@ services:
   dibimbing-dataeng-jupyter:
     container_name: ${JUPYTER_CONTAINER_NAME}
     hostname: ${JUPYTER_CONTAINER_NAME}
-    image: dataeng-dibimbing/jupyter
+    image: mrewaakbari06/rewastack:latest
     environment:
       - JUPYTER_ALLOW_INSECURE_WRITES=true
     ports:
@@ -14,8 +14,9 @@ services:
     volumes:
       - ../:/resources
       - ../notebooks:/home/jovyan/
+      - ../data:/data
 
 networks:
   default:
-    name: dataeng-network
+    name: rewastack-network
     external: true

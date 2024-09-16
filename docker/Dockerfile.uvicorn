@@ -1,0 +1,15 @@
+# Gunakan `python:3.10.0` sebagai base image
+FROM python:3.11.4
+USER root
+# Atur direktori kerja di kontainer
+WORKDIR /opt/app/
+
+# Salin file requirements.txt dan api.py ke dalam kontainer
+COPY ./requirements.txt /app/requirements.txt
+COPY ./api/api.py /app/api.py
+COPY ./.env /app/.env
+# Install dependencies
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Jalankan api.py saat kontainer dimulai
+CMD ["python", "/app/api.py"]

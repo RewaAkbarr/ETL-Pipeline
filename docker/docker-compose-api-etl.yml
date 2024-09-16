@@ -1,0 +1,22 @@
+version: '3'
+services:
+  api:
+    image: mrewaakbari06/rewastack:api
+    container_name: rewastack-api
+    environment:
+      - PORT=6000
+    volumes:
+      - ../api:/api
+    ports:
+      - "6000:6000"
+  etl:
+    image: mrewaakbari06/rewastack:etl
+    container_name: rewastack-etl
+    volumes:
+      - ../etl:/etl
+    depends_on:
+      - api
+networks:
+  default:
+    name: rewastack-network
+    external: true

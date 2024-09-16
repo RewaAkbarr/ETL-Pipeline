@@ -1,0 +1,16 @@
+# Gunakan `python:3.10.0` sebagai base image
+FROM python:3.11.4
+USER root
+# Atur direktori kerja di kontainer
+WORKDIR /opt/app/
+
+# Salin file requirements.txt ke dalam kontainer
+COPY ./requirements.txt /app/requirements.txt
+COPY ./etl/etl.py /app/etl.py
+COPY ./.env /app/.env
+
+# Install dependencies
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Jalankan aplikasi ETL saat kontainer dimulai
+CMD ["python", "/app/etl.py"]

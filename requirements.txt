@@ -1,0 +1,4 @@
+httpx
+asyncio
+uvicorn
+fastapi
