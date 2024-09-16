@@ -20,3 +20,4 @@ networks:
   default:
     name: rewastack-network
     external: true
+    
