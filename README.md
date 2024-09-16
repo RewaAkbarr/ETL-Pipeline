@@ -1,5 +1,17 @@
-Created to process batch data, with extract, transform, and load processes aimed at preparing the data for use, 
-Some configuration adjustments are needed to prepare for this.
+SOAL 1
+- JALANKAN MAKE JUPYTER
+- JAWABAN ADA PADA FOLDER NOTEBOOK
 
-#INSTALLATION
-- Clone this repository
+SOAL 2
+- JALANKAN MAKE DOCKER-BUILD-API-ETL
+- JALANKAN MAKE API-ETL
+
+SOAL 3
+-
+
+SOAL 4
+- JALANKAN MAKE POSTGRES-CREATE
+- JALANKAN MAKE POSTGRES-CREATE-TABLE
+- JALANKAN MAKE POSTGRES-INGEST-CSV
+- BUKA DB POSTGRES
+- SQL QUERY ADA PADA FOLDER SQL
